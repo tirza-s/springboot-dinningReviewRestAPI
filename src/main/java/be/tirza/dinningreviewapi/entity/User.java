@@ -21,10 +21,6 @@ public class User {
     private String displayName;
     private String city;
     private String state;
-    private String zipCode;
-
-    private Boolean peanutWatch;
-    private Boolean glutenWatch;
-    private Boolean diaryWatch;
+    private long zipCode;
 
 }

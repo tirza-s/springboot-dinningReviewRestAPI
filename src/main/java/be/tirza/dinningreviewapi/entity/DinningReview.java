@@ -22,10 +22,6 @@ public class DinningReview {
     private Long restaurantId;
     private String comment;
 
-    private Integer peanutScore;
-    private Integer glutenScore;
-    private Integer dairyScore;
-
     private ReviewStatus reviewStatus;
 
 }

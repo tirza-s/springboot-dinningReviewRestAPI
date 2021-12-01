@@ -21,14 +21,11 @@ public class Restaurant {
     private String address;
     private String city;
     private String state;
-    private String zipCode;
+    private long zipCode;
 
     private String phoneNumber;
     private String website;
 
     private Integer overallScore;
 
-    private Boolean peanutScore;
-    private Boolean glutenScore;
-    private Boolean dairyScore;
 }

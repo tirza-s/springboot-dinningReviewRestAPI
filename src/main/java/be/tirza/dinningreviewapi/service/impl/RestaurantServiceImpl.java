@@ -1,15 +1,18 @@
 package be.tirza.dinningreviewapi.service.impl;
 
 import be.tirza.dinningreviewapi.entity.Restaurant;
+import be.tirza.dinningreviewapi.exception.ResourceNotFoundException;
 import be.tirza.dinningreviewapi.payload.RestaurantDTO;
 import be.tirza.dinningreviewapi.repository.RestaurantRepository;
 import be.tirza.dinningreviewapi.service.RestaurantService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
-public class RestaurantServiceImpl implements RestaurantService {
+class RestaurantServiceImpl implements RestaurantService {
 
     private RestaurantRepository restaurantRepository;
 
@@ -22,16 +25,37 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public RestaurantDTO createRestaurant(RestaurantDTO restaurantDTO) {
-        //convert DTO to Entity
+
+        //convert DTO into Entity
         Restaurant restaurant = mapToEntity(restaurantDTO);
         Restaurant newRestaurant = restaurantRepository.save(restaurant);
 
-        //convert Entity to DTO
+        //convert Entity into DTO
         RestaurantDTO restaurantResponse = mapToDTO(newRestaurant);
         return restaurantResponse;
     }
 
-    //Convert Entity to DTO
+    @Override
+    public List<RestaurantDTO> getAllRestaurant() {
+        List<Restaurant>restaurants = restaurantRepository.findAll();
+        return restaurants.stream().map(restaurant -> mapToDTO(restaurant)).collect(Collectors.toList());
+    }
+
+    @Override
+    public RestaurantDTO getRestaurantById(long id) {
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Restaurant", "id", id));
+        return mapToDTO(restaurant);
+    }
+
+    @Override
+    public RestaurantDTO getRestaurantByZipCode(long zipCode) {
+        Restaurant restaurantByZipCode = restaurantRepository.findRestaurantByZipCode(zipCode)
+                .orElseThrow(()->new ResourceNotFoundException("Restaurant", "zipCode", zipCode));
+        return mapToDTO(restaurantByZipCode);
+    }
+
+    //Convert Entity into DTO
     private RestaurantDTO mapToDTO(Restaurant restaurant){
         RestaurantDTO restaurantDTO = new RestaurantDTO();
         restaurantDTO.setId(restaurant.getId());
@@ -43,9 +67,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantDTO.setPhoneNumber(restaurant.getPhoneNumber());
         restaurantDTO.setWebsite(restaurant.getWebsite());
         restaurantDTO.setOverallScore(restaurant.getOverallScore());
-        restaurantDTO.setPeanutScore(restaurant.getPeanutScore());
-        restaurantDTO.setGlutenScore(restaurant.getGlutenScore());
-        restaurantDTO.setDairyScore(restaurant.getDairyScore());
 
         return restaurantDTO;
     }
@@ -61,9 +82,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant.setPhoneNumber(restaurantDTO.getPhoneNumber());
         restaurant.setWebsite(restaurantDTO.getWebsite());
         restaurant.setOverallScore(restaurantDTO.getOverallScore());
-        restaurant.setPeanutScore(restaurantDTO.getPeanutScore());
-        restaurant.setGlutenScore(restaurantDTO.getGlutenScore());
-        restaurant.setDairyScore(restaurantDTO.getDairyScore());
 
         return restaurant;
     }

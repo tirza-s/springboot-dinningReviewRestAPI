@@ -9,13 +9,10 @@ public class RestaurantDTO {
     private String city;
     private String address;
     private String state;
-    private String zipCode;
+    private long zipCode;
 
     private String phoneNumber;
     private String website;
 
     private Integer overallScore;
-    private Boolean peanutScore;
-    private Boolean glutenScore;
-    private Boolean dairyScore;
 }
