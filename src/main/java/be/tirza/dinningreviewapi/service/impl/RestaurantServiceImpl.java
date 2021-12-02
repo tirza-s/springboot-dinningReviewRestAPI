@@ -38,7 +38,9 @@ class RestaurantServiceImpl implements RestaurantService {
     @Override
     public List<RestaurantDTO> getAllRestaurant() {
         List<Restaurant>restaurants = restaurantRepository.findAll();
-        return restaurants.stream().map(restaurant -> mapToDTO(restaurant)).collect(Collectors.toList());
+        return restaurants.stream()
+                .map(restaurant -> mapToDTO(restaurant))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -49,11 +51,40 @@ class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public RestaurantDTO getRestaurantByZipCode(long zipCode) {
-        Restaurant restaurantByZipCode = restaurantRepository.findRestaurantByZipCode(zipCode)
-                .orElseThrow(()->new ResourceNotFoundException("Restaurant", "zipCode", zipCode));
-        return mapToDTO(restaurantByZipCode);
+    public RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO, long id) {
+        // get post by id from db
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Restaurant", "id", id));
+
+        restaurant.setName(restaurantDTO.getName());
+        restaurant.setAddress(restaurantDTO.getAddress());
+        restaurant.setCity(restaurantDTO.getCity());
+        restaurant.setState(restaurantDTO.getState());
+        restaurant.setZipCode(restaurantDTO.getZipCode());
+        restaurant.setPhoneNumber(restaurantDTO.getPhoneNumber());
+        restaurant.setWebsite(restaurantDTO.getWebsite());
+        restaurant.setOverallScore(restaurantDTO.getOverallScore());
+
+        Restaurant updateRestaurant = restaurantRepository.save(restaurant);
+        return mapToDTO(updateRestaurant);
     }
+
+    @Override
+    public void deleteRestaurantById(long id) {
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Restaurant", "id", id));
+
+        restaurantRepository.delete(restaurant);
+    }
+
+    //ToDO get restaurant by zip code
+
+//    @Override
+//    public RestaurantDTO getRestaurantByZipCode(String zipCode) {
+//        Restaurant restaurant = restaurantRepository.findRestaurantByZipCode(zipCode)
+//                .orElseThrow(()-> new ResourceNotFoundException("Restaurant", "id", zipCode));
+//        return mapToDTO(restaurant);
+//    }
 
     //Convert Entity into DTO
     private RestaurantDTO mapToDTO(Restaurant restaurant){

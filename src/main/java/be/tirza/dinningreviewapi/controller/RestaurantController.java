@@ -37,9 +37,24 @@ public class RestaurantController {
       return ResponseEntity.ok(restaurantService.getRestaurantById(id));
     }
 
-    @GetMapping("/{zipCode}")
-    public ResponseEntity<RestaurantDTO> getRestaurantByZipCode(@PathVariable(name = "zipCode") long zipCode){
-        return ResponseEntity.ok(restaurantService.getRestaurantByZipCode(zipCode));
+//    @GetMapping("/{zipCode}")
+//    public ResponseEntity<RestaurantDTO> getRestaurantByZipCode(@PathVariable(name = "zipCode") String zipCode){
+//        return ResponseEntity.ok(restaurantService.getRestaurantByZipCode(zipCode));
+//    }
+
+    //update restaurant by id
+    @PutMapping("/{id}")
+    public ResponseEntity<RestaurantDTO> updateRestaurant(@RequestBody RestaurantDTO restaurantDTO, @PathVariable(name = "id") long id){
+
+        RestaurantDTO restaurantResponse = restaurantService.updateRestaurant(restaurantDTO, id);
+        return new ResponseEntity<>(restaurantResponse, HttpStatus.OK);
     }
 
+    //delete post by id
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String>deleteRestaurant(@PathVariable (name = "id") long id){
+        restaurantService.deleteRestaurantById(id);
+
+        return new ResponseEntity<>("Restaurant has been deleted successfully", HttpStatus.OK);
+    }
 }
