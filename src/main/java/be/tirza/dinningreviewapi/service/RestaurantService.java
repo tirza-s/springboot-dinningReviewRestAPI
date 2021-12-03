@@ -8,9 +8,13 @@ import java.util.List;
 public interface RestaurantService {
 
     RestaurantDTO createRestaurant(RestaurantDTO restaurantDTO);
+
     RestaurantResponse getAllRestaurant(int pageNo, int pageSize, String sortBy, String sortDir);
+
     RestaurantDTO getRestaurantById(long id);
+
     RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO, long id);
+
     void deleteRestaurantById(long id);
 
 
