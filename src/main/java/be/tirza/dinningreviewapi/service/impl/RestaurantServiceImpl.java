@@ -103,15 +103,6 @@ class RestaurantServiceImpl implements RestaurantService {
         restaurantRepository.delete(restaurant);
     }
 
-    //ToDO get restaurant by zip code
-
-//    @Override
-//    public RestaurantDTO getRestaurantByZipCode(String zipCode) {
-//        Restaurant restaurant = restaurantRepository.findRestaurantByZipCode(zipCode)
-//                .orElseThrow(()-> new ResourceNotFoundException("Restaurant", "id", zipCode));
-//        return mapToDTO(restaurant);
-//    }
-
     //Convert Entity into DTO
     private RestaurantDTO mapToDTO(Restaurant restaurant){
         RestaurantDTO restaurantDTO = new RestaurantDTO();

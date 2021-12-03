@@ -11,17 +11,21 @@ import javax.persistence.*;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "dinning_review")
-public class DinningReview {
+@Table(name = "reviews")
+public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String submitBy;
-    private Long restaurantId;
+    private String email;
+
+    @Column(name = "comment", length = 2000)
     private String comment;
 
-    private ReviewStatus reviewStatus;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
 
 }

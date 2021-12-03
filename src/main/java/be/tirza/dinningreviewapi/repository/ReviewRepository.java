@@ -1,7 +1,10 @@
 package be.tirza.dinningreviewapi.repository;
 
-import be.tirza.dinningreviewapi.entity.DinningReview;
+import be.tirza.dinningreviewapi.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReviewRepository extends JpaRepository <DinningReview, Long> {
+import java.util.List;
+
+public interface ReviewRepository extends JpaRepository <Review, Long> {
+    List<Review> findPostById(long restaurantId);
 }
