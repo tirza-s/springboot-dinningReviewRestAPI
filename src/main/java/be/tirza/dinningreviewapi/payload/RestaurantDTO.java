@@ -2,6 +2,8 @@ package be.tirza.dinningreviewapi.payload;
 
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 public class RestaurantDTO {
     private Long id;
@@ -15,4 +17,7 @@ public class RestaurantDTO {
     private String website;
 
     private Integer overallScore;
+
+    // to be able to see the reviews
+    private Set<ReviewDTO> reviews;
 }

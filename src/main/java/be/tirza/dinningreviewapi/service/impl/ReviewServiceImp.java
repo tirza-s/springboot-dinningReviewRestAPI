@@ -8,6 +8,7 @@ import be.tirza.dinningreviewapi.payload.ReviewDTO;
 import be.tirza.dinningreviewapi.repository.RestaurantRepository;
 import be.tirza.dinningreviewapi.repository.ReviewRepository;
 import be.tirza.dinningreviewapi.service.ReviewService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,14 @@ public class ReviewServiceImp implements ReviewService {
 
     private ReviewRepository reviewRepository;
     private RestaurantRepository restaurantRepository;
+    private ModelMapper modelMapper;
 
-    public ReviewServiceImp(ReviewRepository reviewRepository, RestaurantRepository restaurantRepository) {
+    public ReviewServiceImp(ReviewRepository reviewRepository,
+                            RestaurantRepository restaurantRepository,
+                            ModelMapper modelMapper) {
         this.reviewRepository = reviewRepository;
         this.restaurantRepository = restaurantRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -41,7 +46,7 @@ public class ReviewServiceImp implements ReviewService {
         //save review entity to db
         Review newReview = reviewRepository.save(review);
 
-        return  mapToDTO(newReview);
+        return mapToDTO(newReview);
     }
 
     @Override
@@ -61,10 +66,10 @@ public class ReviewServiceImp implements ReviewService {
 
         //Retrieve review entity by id
         Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(()-> new ResourceNotFoundException("Review", "id", reviewId));
+                .orElseThrow(() -> new ResourceNotFoundException("Review", "id", reviewId));
 
         //if comment doesn't belong to a restaurant then it will throw RestaurantApiException
-        if(!review.getRestaurant().getId().equals(restaurant.getId())){
+        if (!review.getRestaurant().getId().equals(restaurant.getId())) {
             throw new RestaurantApiException(HttpStatus.BAD_REQUEST, "Review does not belong to the Restaurant. Please enter the right restaurant id");
         }
 
@@ -80,9 +85,9 @@ public class ReviewServiceImp implements ReviewService {
 
         //Retrieve review entity by id
         Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(()-> new ResourceNotFoundException("Review", "id", reviewId));
+                .orElseThrow(() -> new ResourceNotFoundException("Review", "id", reviewId));
 
-        if(!review.getRestaurant().getId().equals(restaurant.getId())){
+        if (!review.getRestaurant().getId().equals(restaurant.getId())) {
             throw new RestaurantApiException(HttpStatus.BAD_REQUEST, "Review does not belong to the Restaurant. Please enter the right restaurant id");
         }
 
@@ -104,36 +109,39 @@ public class ReviewServiceImp implements ReviewService {
 
         //Retrieve review entity by id
         Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(()-> new ResourceNotFoundException("Review", "id", reviewId));
+                .orElseThrow(() -> new ResourceNotFoundException("Review", "id", reviewId));
 
-        if(!review.getRestaurant().getId().equals(restaurant.getId())){
+        if (!review.getRestaurant().getId().equals(restaurant.getId())) {
             throw new RestaurantApiException(HttpStatus.BAD_REQUEST, "Review does not belong to the Restaurant. Please enter the right restaurant id");
         }
 
         reviewRepository.delete(review);
-
     }
 
     // convert Entity into DTO
     private ReviewDTO mapToDTO(Review review) {
-        ReviewDTO reviewDTO = new ReviewDTO();
-        reviewDTO.setId(review.getId());
-        reviewDTO.setSubmitBy(review.getSubmitBy());
-        reviewDTO.setEmail(review.getEmail());
-        reviewDTO.setComment(review.getComment());
+
+        ReviewDTO reviewDTO = modelMapper.map(review, ReviewDTO.class);
+
+//        ReviewDTO reviewDTO = new ReviewDTO();
+//        reviewDTO.setId(review.getId());
+//        reviewDTO.setSubmitBy(review.getSubmitBy());
+//        reviewDTO.setEmail(review.getEmail());
+//        reviewDTO.setComment(review.getComment());
 
         return reviewDTO;
     }
 
     // convert DTO into Entity
-    private Review mapToEntity(ReviewDTO reviewDTO){
-        Review review = new Review();
-        review.setId(reviewDTO.getId());
-        review.setSubmitBy(reviewDTO.getSubmitBy());
-        review.setEmail(reviewDTO.getEmail());
-        review.setComment(reviewDTO.getComment());
+    private Review mapToEntity(ReviewDTO reviewDTO) {
+
+        Review review = modelMapper.map(reviewDTO, Review.class);
+//        Review review = new Review();
+//        review.setId(reviewDTO.getId());
+//        review.setSubmitBy(reviewDTO.getSubmitBy());
+//        review.setEmail(reviewDTO.getEmail());
+//        review.setComment(reviewDTO.getComment());
 
         return review;
     }
-
 }
