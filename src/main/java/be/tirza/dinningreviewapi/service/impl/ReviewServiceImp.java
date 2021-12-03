@@ -43,9 +43,9 @@ public class ReviewServiceImp implements ReviewService {
     }
 
     @Override
-    public List<ReviewDTO> getReviewByPostId(long restaurantId) {
+    public List<ReviewDTO> getReviewByRestaurantId(long restaurantId) {
         //retrieve comment by restaurantId
-        List<Review> reviews = reviewRepository.findPostById(restaurantId);
+        List<Review> reviews = reviewRepository.findByRestaurantId(restaurantId);
 
         return reviews.stream().map(review -> (mapToDTO(review))).collect(Collectors.toList());
     }

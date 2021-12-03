@@ -8,5 +8,5 @@ public interface ReviewService {
 
     ReviewDTO createReview(long restaurantId, ReviewDTO reviewDTO);
 
-    List<ReviewDTO> getReviewByPostId(long restaurantId);
+    List<ReviewDTO> getReviewByRestaurantId(long restaurantId);
 }

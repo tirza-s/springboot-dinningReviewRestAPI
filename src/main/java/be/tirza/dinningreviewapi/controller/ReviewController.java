@@ -19,15 +19,15 @@ public class ReviewController {
     }
 
     //create a review for restaurant
-    //http://localhost:8080/api/restaurants/12/reviews
     @PostMapping("/restaurants/{restaurantId}/reviews")
     public ResponseEntity<ReviewDTO> createReview (@PathVariable(value ="restaurantId") long restaurantId,
                                                    @RequestBody ReviewDTO reviewDTO){
         return new ResponseEntity<>(reviewService.createReview(restaurantId, reviewDTO), HttpStatus.CREATED);
     }
 
+    //http://localhost:8080/api/restaurants/12/reviews
     @GetMapping("/restaurants/{restaurantId}/reviews")
-    public List<ReviewDTO> getReviewsByRestaurantId(@PathVariable(value = "restaurantId") Long restaurantId){
-        return reviewService.getReviewByPostId(restaurantId);
+    public List<ReviewDTO> getAllReviewsByRestaurantId(@PathVariable(value = "restaurantId") Long restaurantId){
+        return reviewService.getReviewByRestaurantId(restaurantId);
     }
 }
