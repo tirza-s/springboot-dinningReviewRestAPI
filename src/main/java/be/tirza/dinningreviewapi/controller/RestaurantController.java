@@ -9,8 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/restaurants")
@@ -22,9 +21,9 @@ public class RestaurantController {
         this.restaurantService = restaurantService;
     }
 
-    //create a restaurant rest api
+    //create restaurant rest api
     @PostMapping
-    public ResponseEntity<RestaurantDTO> createRestaurant(@RequestBody RestaurantDTO restaurantDTO){ // convert json to java object
+    public ResponseEntity<RestaurantDTO> createRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) { // convert json to java object
         return new ResponseEntity<>(restaurantService.createRestaurant(restaurantDTO), HttpStatus.CREATED);
     }
 
@@ -33,23 +32,24 @@ public class RestaurantController {
     //http://localhost:8080/api/restaurants?pageNo=0&pageSize=10&sortBy=name&sortDir=asc
     @GetMapping
     public RestaurantResponse getAllRestaurant
-            (@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
-             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-            ){
+        (@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+        @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+        @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+        @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+    ) {
         return restaurantService.getAllRestaurant(pageNo, pageSize, sortBy, sortDir);
     }
 
     //get restaurant by id
     @GetMapping("/{id}")
     public ResponseEntity getRestaurantById(@PathVariable(name = "id") long id) {
-            return ResponseEntity.ok(restaurantService.getRestaurantById(id));
-        }
+        return ResponseEntity.ok(restaurantService.getRestaurantById(id));
+    }
 
-    //update restaurant by id
+    //update restaurant by id rest api
     @PutMapping("/{id}")
-    public ResponseEntity<RestaurantDTO> updateRestaurant(@RequestBody RestaurantDTO restaurantDTO, @PathVariable(name = "id") long id){
+    public ResponseEntity<RestaurantDTO> updateRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO,
+                                                          @PathVariable(name = "id") long id) {
 
         RestaurantDTO restaurantResponse = restaurantService.updateRestaurant(restaurantDTO, id);
         return new ResponseEntity<>(restaurantResponse, HttpStatus.OK);
@@ -57,7 +57,7 @@ public class RestaurantController {
 
     //delete post by id
     @DeleteMapping("/{id}")
-    public ResponseEntity<String>deleteRestaurant(@PathVariable (name = "id") long id){
+    public ResponseEntity<String> deleteRestaurant(@PathVariable(name = "id") long id) {
         restaurantService.deleteRestaurantById(id);
 
         return new ResponseEntity<>("Restaurant has been deleted successfully", HttpStatus.OK);

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ public class ReviewController {
     //create a review for restaurant
     @PostMapping("/restaurants/{restaurantId}/reviews")
     public ResponseEntity<ReviewDTO> createReview(@PathVariable(value = "restaurantId") long restaurantId,
-                                                  @RequestBody ReviewDTO reviewDTO) {
+                                                   @Valid @RequestBody ReviewDTO reviewDTO) {
 
         return new ResponseEntity<>(reviewService.createReview(restaurantId, reviewDTO), HttpStatus.CREATED);
     }
@@ -47,14 +48,13 @@ public class ReviewController {
     @PutMapping("/restaurants/{restaurantId}/reviews/{id}")
     public ResponseEntity<ReviewDTO> updateComment(@PathVariable(value="restaurantId") Long restaurantId,
                                                    @PathVariable(value="id")Long reviewId,
-                                                   @RequestBody ReviewDTO reviewDTO) {
+                                                   @Valid @RequestBody ReviewDTO reviewDTO) {
 
         ReviewDTO updatedReview = reviewService.updateReview(restaurantId, reviewId, reviewDTO);
         return new ResponseEntity<>(updatedReview, HttpStatus.OK);
     }
 
-
-    //Deleted reviw from db
+    //Delete review from db
     @DeleteMapping("/restaurants/{restaurantId}/reviews/{id}")
     public ResponseEntity<String> deleteReView(@PathVariable(value="restaurantId") Long restaurantId,
                                                @PathVariable(value="id")Long reviewId) {

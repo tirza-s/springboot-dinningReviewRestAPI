@@ -32,7 +32,7 @@ public class Restaurant {
     private String state;
 
     @Column(name = "zip_code", nullable = false)
-    private long zipCode;
+    private String zipCode;
 
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
