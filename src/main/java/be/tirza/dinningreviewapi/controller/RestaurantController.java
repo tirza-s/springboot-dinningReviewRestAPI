@@ -7,6 +7,7 @@ import be.tirza.dinningreviewapi.service.RestaurantService;
 import be.tirza.dinningreviewapi.util.AppConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ public class RestaurantController {
         this.restaurantService = restaurantService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     //create restaurant rest api
     @PostMapping
     public ResponseEntity<RestaurantDTO> createRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) { // convert json to java object
@@ -46,6 +48,7 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantService.getRestaurantById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     //update restaurant by id rest api
     @PutMapping("/{id}")
     public ResponseEntity<RestaurantDTO> updateRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO,
@@ -55,6 +58,7 @@ public class RestaurantController {
         return new ResponseEntity<>(restaurantResponse, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     //delete post by id
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRestaurant(@PathVariable(name = "id") long id) {
