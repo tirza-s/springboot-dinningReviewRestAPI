@@ -10,9 +10,6 @@ import java.util.Set;
 public class RestaurantDTO {
     private Long id;
 
-    //restaurant name should not be null or empty
-    //restaurant name should have at least 2 characters
-
     @NotEmpty
     @Size(min = 2, message = "Restaurant name should have min 2 character and may not be empty")
     private String name;
