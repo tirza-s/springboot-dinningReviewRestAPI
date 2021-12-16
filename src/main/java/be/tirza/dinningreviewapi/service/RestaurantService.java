@@ -3,7 +3,6 @@ package be.tirza.dinningreviewapi.service;
 import be.tirza.dinningreviewapi.payload.RestaurantDTO;
 import be.tirza.dinningreviewapi.payload.RestaurantResponse;
 
-
 public interface RestaurantService {
 
     RestaurantDTO createRestaurant(RestaurantDTO restaurantDTO);

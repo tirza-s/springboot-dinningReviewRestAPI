@@ -2,10 +2,12 @@ package be.tirza.dinningreviewapi.controller;
 
 import be.tirza.dinningreviewapi.entity.Role;
 import be.tirza.dinningreviewapi.entity.User;
+import be.tirza.dinningreviewapi.payload.JwtAuthResponse;
 import be.tirza.dinningreviewapi.payload.LoginDTO;
 import be.tirza.dinningreviewapi.payload.SignUpDTO;
 import be.tirza.dinningreviewapi.repository.RoleRepository;
 import be.tirza.dinningreviewapi.repository.UserRepository;
+import be.tirza.dinningreviewapi.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
     @Autowired
@@ -37,13 +39,20 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
     @PostMapping("/signIn")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<JwtAuthResponse> authenticateUser(@RequestBody LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUserNameOrEmail(),
                 loginDTO.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User signed-in successfully !", HttpStatus.OK);
+
+        //get token from tokenProvider
+        String token = tokenProvider.generateToken(authentication);
+
+        return ResponseEntity.ok(new JwtAuthResponse(token));
     }
 
     @PostMapping("/signUp")

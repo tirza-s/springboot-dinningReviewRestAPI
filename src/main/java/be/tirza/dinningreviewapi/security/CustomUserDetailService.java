@@ -15,11 +15,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomDetailService implements UserDetailsService { // UserDetailsService -> Core interface which loads user-specific data.
+public class CustomUserDetailService implements UserDetailsService { // UserDetailsService -> Core interface which loads user-specific data.
 
     private UserRepository userRepository;
 
-    public CustomDetailService(UserRepository userRepository) {
+    public CustomUserDetailService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

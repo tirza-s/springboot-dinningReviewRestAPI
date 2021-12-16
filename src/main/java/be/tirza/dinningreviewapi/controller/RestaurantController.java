@@ -1,6 +1,5 @@
 package be.tirza.dinningreviewapi.controller;
 
-import be.tirza.dinningreviewapi.entity.Restaurant;
 import be.tirza.dinningreviewapi.payload.RestaurantDTO;
 import be.tirza.dinningreviewapi.payload.RestaurantResponse;
 import be.tirza.dinningreviewapi.service.RestaurantService;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/restaurants")
+@RequestMapping()
 public class RestaurantController {
 
     private RestaurantService restaurantService;
@@ -24,7 +23,7 @@ public class RestaurantController {
 
     @PreAuthorize("hasRole('ADMIN')")
     //create restaurant rest api
-    @PostMapping
+    @PostMapping("/api/v1/restaurants")
     public ResponseEntity<RestaurantDTO> createRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) { // convert json to java object
         return new ResponseEntity<>(restaurantService.createRestaurant(restaurantDTO), HttpStatus.CREATED);
     }
@@ -32,7 +31,7 @@ public class RestaurantController {
     //get all restaurant rest api
     //http://localhost:8080/api/restaurants?pageNo=0&pageSize=5
     //http://localhost:8080/api/restaurants?pageNo=0&pageSize=10&sortBy=name&sortDir=asc
-    @GetMapping
+    @GetMapping("/api/v1/restaurants")
     public RestaurantResponse getAllRestaurant
         (@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
         @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
@@ -43,14 +42,14 @@ public class RestaurantController {
     }
 
     //get restaurant by id
-    @GetMapping("/{id}")
-    public ResponseEntity getRestaurantById(@PathVariable(name = "id") long id) {
+    @GetMapping("/api/v1/restaurants/{id}")
+    public ResponseEntity<RestaurantDTO> getRestaurantByIdV1(@PathVariable(name = "id") long id) {
         return ResponseEntity.ok(restaurantService.getRestaurantById(id));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     //update restaurant by id rest api
-    @PutMapping("/{id}")
+    @PutMapping("/api/v1/restaurants/{id}")
     public ResponseEntity<RestaurantDTO> updateRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO,
                                                           @PathVariable(name = "id") long id) {
 
@@ -60,7 +59,7 @@ public class RestaurantController {
 
     @PreAuthorize("hasRole('ADMIN')")
     //delete post by id
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/v1/restaurants/{id}")
     public ResponseEntity<String> deleteRestaurant(@PathVariable(name = "id") long id) {
         restaurantService.deleteRestaurantById(id);
 

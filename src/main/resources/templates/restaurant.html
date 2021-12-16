@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get Restaurant</title>
+</head>
+<body>
+
+<script>
+    function getRestaurant() {
+        const restaurantId = document.getElementById('restaurant_id');
+        fetch(`http://localhost:8080/api/restaurants?zipCode=1000`)
+            .then(response => response.json())
+            .then(data => {
+                const responseField = document.getElementById('responseField');
+                responseField.innerHTML = JSON.stringify(data);
+            });
+    }
+</script>
+<h2 id="restaurant_label">Discover a Restaurant in Brussel</h2>
+Restaurant id: <input id="restaurant_id"><br>
+<button onclick="getRestaurant()">Submit</button>
+<h2 id="response_label">Json Response:</h2>
+<div id="responseField"></div>
+</body>
+</html>
