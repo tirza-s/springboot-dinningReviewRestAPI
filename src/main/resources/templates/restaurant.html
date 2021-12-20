@@ -8,8 +8,8 @@
 
 <script>
     function getRestaurant() {
-        const restaurantId = document.getElementById('restaurant_id');
-        fetch(`http://localhost:8080/api/restaurants?zipCode=1000`)
+        const restaurantZipCode = document.getElementById('restaurant_zipCode');
+        fetch(`http://localhost:8080/api/v1/restaurants/zipCode/1160`)
             .then(response => response.json())
             .then(data => {
                 const responseField = document.getElementById('responseField');
@@ -18,7 +18,7 @@
     }
 </script>
 <h2 id="restaurant_label">Discover a Restaurant in Brussel</h2>
-Restaurant id: <input id="restaurant_id"><br>
+ZipCode: <input id="restaurant_zipCode"><br>
 <button onclick="getRestaurant()">Submit</button>
 <h2 id="response_label">Json Response:</h2>
 <div id="responseField"></div>

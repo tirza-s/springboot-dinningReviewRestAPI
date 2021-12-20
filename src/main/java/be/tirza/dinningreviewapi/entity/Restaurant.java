@@ -1,5 +1,6 @@
 package be.tirza.dinningreviewapi.entity;
 
+import be.tirza.dinningreviewapi.payload.RestaurantDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -39,9 +40,6 @@ public class Restaurant {
 
     @Column(name = "website", nullable = false)
     private String website;
-
-    @Column(name = "overall_score", nullable = false)
-    private Integer overallScore;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews = new HashSet<>();

@@ -2,7 +2,6 @@ package be.tirza.dinningreviewapi.service.impl;
 
 import be.tirza.dinningreviewapi.entity.Restaurant;
 import be.tirza.dinningreviewapi.exception.ResourceNotFoundException;
-import be.tirza.dinningreviewapi.exception.RestaurantApiException;
 import be.tirza.dinningreviewapi.payload.RestaurantDTO;
 import be.tirza.dinningreviewapi.payload.RestaurantResponse;
 import be.tirza.dinningreviewapi.repository.RestaurantRepository;
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -24,9 +24,12 @@ class RestaurantServiceImpl implements RestaurantService {
 
     private RestaurantRepository restaurantRepository;
 
+    private Pattern zipCodePattern = Pattern.compile("\\d{4}");
+
     private ModelMapper modelMapper;
 
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, ModelMapper modelMapper) {
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository,
+                                 ModelMapper modelMapper) {
         this.restaurantRepository = restaurantRepository;
         this.modelMapper = modelMapper;
     }
@@ -56,7 +59,7 @@ class RestaurantServiceImpl implements RestaurantService {
         //get content from page object
         List<Restaurant> listOfRestaurant = restaurants.getContent();
 
-        List<RestaurantDTO> restaurantResp= listOfRestaurant.stream()
+        List<RestaurantDTO> restaurantResp = listOfRestaurant.stream()
                 .map(restaurant -> mapToDTO(restaurant))
                 .collect(Collectors.toList());
 
@@ -74,8 +77,18 @@ class RestaurantServiceImpl implements RestaurantService {
     @Override
     public RestaurantDTO getRestaurantById(long id) {
         Restaurant restaurant = restaurantRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Restaurant", "id", id));
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant", "id", id));
         return mapToDTO(restaurant);
+    }
+
+    @Override
+    public RestaurantDTO getRestaurantByZipCode(String zipCode) {
+    //    validateZipCode(zipCode);
+
+       Restaurant restaurant = restaurantRepository.findAByZipCode(zipCode)
+               .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+
+       return mapToDTO(restaurant);
     }
 
     @Override
@@ -91,7 +104,6 @@ class RestaurantServiceImpl implements RestaurantService {
         restaurant.setZipCode(restaurantDTO.getZipCode());
         restaurant.setPhoneNumber(restaurantDTO.getPhoneNumber());
         restaurant.setWebsite(restaurantDTO.getWebsite());
-        restaurant.setOverallScore(restaurantDTO.getOverallScore());
 
         Restaurant updateRestaurant = restaurantRepository.save(restaurant);
         return mapToDTO(updateRestaurant);
@@ -103,6 +115,13 @@ class RestaurantServiceImpl implements RestaurantService {
                 .orElseThrow(()-> new ResourceNotFoundException("Restaurant", "id", id));
 
         restaurantRepository.delete(restaurant);
+    }
+
+    //validate zipCode
+    private void validateZipCode(String zipCode){
+        if(!zipCodePattern.matcher(zipCode).matches()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 
     //Convert Entity into DTO
@@ -118,7 +137,6 @@ class RestaurantServiceImpl implements RestaurantService {
 //        restaurantDTO.setZipCode(restaurant.getZipCode());
 //        restaurantDTO.setPhoneNumber(restaurant.getPhoneNumber());
 //        restaurantDTO.setWebsite(restaurant.getWebsite());
-//        restaurantDTO.setOverallScore(restaurant.getOverallScore());
 
         return restaurantDTO;
     }
@@ -135,9 +153,7 @@ class RestaurantServiceImpl implements RestaurantService {
 //        restaurant.setZipCode(restaurantDTO.getZipCode());
 //        restaurant.setPhoneNumber(restaurantDTO.getPhoneNumber());
 //        restaurant.setWebsite(restaurantDTO.getWebsite());
-//        restaurant.setOverallScore(restaurantDTO.getOverallScore());
 
         return restaurant;
     }
-
 }

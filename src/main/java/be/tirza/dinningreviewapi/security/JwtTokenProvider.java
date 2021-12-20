@@ -58,6 +58,5 @@ public class JwtTokenProvider {
         }catch (IllegalArgumentException exception) {
             throw new RestaurantApiException(HttpStatus.BAD_REQUEST, "JWT claims string is empty");
         }
-
     }
 }

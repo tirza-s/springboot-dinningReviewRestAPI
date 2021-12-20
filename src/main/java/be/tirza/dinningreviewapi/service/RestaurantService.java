@@ -11,6 +11,8 @@ public interface RestaurantService {
 
     RestaurantDTO getRestaurantById(long id);
 
+    RestaurantDTO getRestaurantByZipCode(String zipCode);
+
     RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO, long id);
 
     void deleteRestaurantById(long id);

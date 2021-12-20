@@ -43,8 +43,14 @@ public class RestaurantController {
 
     //get restaurant by id
     @GetMapping("/api/v1/restaurants/{id}")
-    public ResponseEntity<RestaurantDTO> getRestaurantByIdV1(@PathVariable(name = "id") long id) {
+    public ResponseEntity<RestaurantDTO> getRestaurantById(@PathVariable(name = "id") long id) {
         return ResponseEntity.ok(restaurantService.getRestaurantById(id));
+    }
+
+    //http://localhost:8080/api/v1/restaurants/zipCode/1160
+    @GetMapping("/api/v1/restaurants/zipCode/{zipCode}")
+    public ResponseEntity<RestaurantDTO> getRestaurantByZipCode(@PathVariable(name = "zipCode") String zipCode) {
+        return ResponseEntity.ok(restaurantService.getRestaurantByZipCode(zipCode));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

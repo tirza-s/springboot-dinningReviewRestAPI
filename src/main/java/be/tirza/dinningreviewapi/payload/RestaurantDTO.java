@@ -33,8 +33,6 @@ public class RestaurantDTO {
     @NotEmpty(message = "Website may not be null or empty")
     private String website;
 
-    private Integer overallScore;
-
     // to be able to see the reviews
     private Set<ReviewDTO> reviews;
 }
