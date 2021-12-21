@@ -45,6 +45,7 @@ public class ReviewController {
     }
 
     //Update review from db
+    // http://localhost:8080/api/v1/restaurants/13/reviews/4
     @PutMapping("/restaurants/{restaurantId}/reviews/{id}")
     public ResponseEntity<ReviewDTO> updateComment(@PathVariable(value="restaurantId") Long restaurantId,
                                                    @PathVariable(value="id")Long reviewId,

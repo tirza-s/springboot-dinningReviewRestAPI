@@ -2,6 +2,7 @@ package be.tirza.dinningreviewapi.service.impl;
 
 import be.tirza.dinningreviewapi.entity.Restaurant;
 import be.tirza.dinningreviewapi.exception.ResourceNotFoundException;
+import be.tirza.dinningreviewapi.exception.RestaurantApiException;
 import be.tirza.dinningreviewapi.payload.RestaurantDTO;
 import be.tirza.dinningreviewapi.payload.RestaurantResponse;
 import be.tirza.dinningreviewapi.repository.RestaurantRepository;
@@ -15,7 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.management.Query;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -82,20 +86,18 @@ class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public RestaurantDTO getRestaurantByZipCode(String zipCode) {
-    //    validateZipCode(zipCode);
-
-       Restaurant restaurant = restaurantRepository.findAByZipCode(zipCode)
-               .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST));
-
-       return mapToDTO(restaurant);
+    public List<RestaurantDTO> getRestaurantByZipCode(String zipCode) {
+        List<Restaurant> restaurants = restaurantRepository.findAllByZipCode(zipCode);
+        return restaurants.stream()
+                .map(restaurant -> mapToDTO(restaurant))
+                .collect(Collectors.toList());
     }
 
     @Override
     public RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO, long id) {
         // get post by id from db
         Restaurant restaurant = restaurantRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Restaurant", "id", id));
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant", "id", id));
 
         restaurant.setName(restaurantDTO.getName());
         restaurant.setAddress(restaurantDTO.getAddress());
@@ -112,20 +114,20 @@ class RestaurantServiceImpl implements RestaurantService {
     @Override
     public void deleteRestaurantById(long id) {
         Restaurant restaurant = restaurantRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Restaurant", "id", id));
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant", "id", id));
 
         restaurantRepository.delete(restaurant);
     }
 
     //validate zipCode
-    private void validateZipCode(String zipCode){
-        if(!zipCodePattern.matcher(zipCode).matches()){
+    private void validateZipCode(String zipCode) {
+        if (!zipCodePattern.matcher(zipCode).matches()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
     //Convert Entity into DTO
-    private RestaurantDTO mapToDTO(Restaurant restaurant){
+    private RestaurantDTO mapToDTO(Restaurant restaurant) {
 
         RestaurantDTO restaurantDTO = modelMapper.map(restaurant, RestaurantDTO.class);
 //        RestaurantDTO restaurantDTO = new RestaurantDTO();

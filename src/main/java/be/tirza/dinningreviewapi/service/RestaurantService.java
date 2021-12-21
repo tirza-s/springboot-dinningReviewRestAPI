@@ -3,6 +3,8 @@ package be.tirza.dinningreviewapi.service;
 import be.tirza.dinningreviewapi.payload.RestaurantDTO;
 import be.tirza.dinningreviewapi.payload.RestaurantResponse;
 
+import java.util.List;
+
 public interface RestaurantService {
 
     RestaurantDTO createRestaurant(RestaurantDTO restaurantDTO);
@@ -11,7 +13,7 @@ public interface RestaurantService {
 
     RestaurantDTO getRestaurantById(long id);
 
-    RestaurantDTO getRestaurantByZipCode(String zipCode);
+    List<RestaurantDTO> getRestaurantByZipCode(String zipCode);
 
     RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO, long id);
 

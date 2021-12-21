@@ -10,6 +10,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping()
@@ -47,11 +49,13 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantService.getRestaurantById(id));
     }
 
-    //http://localhost:8080/api/v1/restaurants/zipCode/1160
     @GetMapping("/api/v1/restaurants/zipCode/{zipCode}")
-    public ResponseEntity<RestaurantDTO> getRestaurantByZipCode(@PathVariable(name = "zipCode") String zipCode) {
-        return ResponseEntity.ok(restaurantService.getRestaurantByZipCode(zipCode));
+    public ResponseEntity getRestaurantByZipCode(@PathVariable(name = "zipCode") String zipCode){
+
+        List<RestaurantDTO> restaurantDTO = restaurantService.getRestaurantByZipCode(zipCode);
+        return new ResponseEntity<>(restaurantDTO,HttpStatus.OK);
     }
+
 
     @PreAuthorize("hasRole('ADMIN')")
     //update restaurant by id rest api
