@@ -88,6 +88,9 @@ class RestaurantServiceImpl implements RestaurantService {
     @Override
     public List<RestaurantDTO> getRestaurantByZipCode(String zipCode) {
         List<Restaurant> restaurants = restaurantRepository.findAllByZipCode(zipCode);
+        if(!zipCode.isEmpty() && !restaurantRepository.existsByZipCode(zipCode)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Restaurant does not exist");
+        }
         return restaurants.stream()
                 .map(restaurant -> mapToDTO(restaurant))
                 .collect(Collectors.toList());
