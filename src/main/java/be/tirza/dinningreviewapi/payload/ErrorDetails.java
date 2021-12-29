@@ -1,9 +1,6 @@
 package be.tirza.dinningreviewapi.payload;
 
-import org.springframework.http.HttpStatus;
-
 import java.util.Date;
-import java.util.List;
 
 public class ErrorDetails {
     private Date timestamp;

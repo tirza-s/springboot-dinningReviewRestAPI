@@ -8,6 +8,8 @@ import be.tirza.dinningreviewapi.payload.SignUpDTO;
 import be.tirza.dinningreviewapi.repository.RoleRepository;
 import be.tirza.dinningreviewapi.repository.UserRepository;
 import be.tirza.dinningreviewapi.security.JwtTokenProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 
+@Api(value = "Auth controller for signin and signup REST APIs")
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -42,6 +45,7 @@ public class AuthController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
+    @ApiOperation (value = "REST API to signIn to dinning review app")
     @PostMapping("/signIn")
     public ResponseEntity<JwtAuthResponse> authenticateUser(@RequestBody LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUserNameOrEmail(),
@@ -55,6 +59,7 @@ public class AuthController {
         return ResponseEntity.ok(new JwtAuthResponse(token));
     }
 
+    @ApiOperation (value = "REST API to register or signUp to dinning review app")
     @PostMapping("/signUp")
     public ResponseEntity<String> registerUser(@RequestBody SignUpDTO signUpDTO) {
 
