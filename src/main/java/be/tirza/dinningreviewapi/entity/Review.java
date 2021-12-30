@@ -19,6 +19,7 @@ public class Review {
     private Long id;
 
     private String submitBy;
+
     private String email;
 
     @Column(name = "comment", length = 2000)

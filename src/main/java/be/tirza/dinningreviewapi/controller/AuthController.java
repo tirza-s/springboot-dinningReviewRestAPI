@@ -59,7 +59,7 @@ public class AuthController {
         return ResponseEntity.ok(new JwtAuthResponse(token));
     }
 
-    @ApiOperation (value = "REST API to register or signUp to dinning review app")
+    @ApiOperation (value = "REST API to register to dinning review app")
     @PostMapping("/signUp")
     public ResponseEntity<String> registerUser(@RequestBody SignUpDTO signUpDTO) {
 
