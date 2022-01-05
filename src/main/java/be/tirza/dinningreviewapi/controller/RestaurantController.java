@@ -8,7 +8,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,7 +25,6 @@ public class RestaurantController {
     }
 
     @ApiOperation(value = "Create restaurant REST API")
-    @PreAuthorize("hasRole('ADMIN')")
     //create restaurant rest api
     @PostMapping("/api/v1/restaurants")
     public ResponseEntity<RestaurantDTO> createRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) { // convert json to java object
@@ -65,7 +63,6 @@ public class RestaurantController {
 
     //update restaurant by id rest api
     @ApiOperation(value = "Update restaurant REST API")
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/api/v1/restaurants/{id}")
     public ResponseEntity<RestaurantDTO> updateRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO,
                                                           @PathVariable(name = "id") long id) {
@@ -76,7 +73,6 @@ public class RestaurantController {
 
     //delete post by id
     @ApiOperation(value = "Delete restaurant REST API")
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/api/v1/restaurants/{id}")
     public ResponseEntity<String> deleteRestaurant(@PathVariable(name = "id") long id) {
         restaurantService.deleteRestaurantById(id);
