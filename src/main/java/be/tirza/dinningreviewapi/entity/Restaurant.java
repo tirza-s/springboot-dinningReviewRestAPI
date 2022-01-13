@@ -1,6 +1,6 @@
 package be.tirza.dinningreviewapi.entity;
 
-import be.tirza.dinningreviewapi.payload.RestaurantDTO;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,6 +42,7 @@ public class Restaurant {
     private String website;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private Set<Review> reviews = new HashSet<>();
 
 }

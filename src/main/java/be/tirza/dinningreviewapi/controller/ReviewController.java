@@ -2,16 +2,13 @@ package be.tirza.dinningreviewapi.controller;
 
 import be.tirza.dinningreviewapi.payload.ReviewDTO;
 import be.tirza.dinningreviewapi.service.ReviewService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(value="CRUD REST APIs for review resources")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/v1")
 public class ReviewController {
@@ -23,7 +20,6 @@ public class ReviewController {
     }
 
     //create a review for restaurant
-    @ApiOperation(value="Create review REST API")
     @PostMapping("/restaurants/{restaurantId}/reviews")
     public ResponseEntity<ReviewDTO> createReview(@PathVariable(value = "restaurantId") long restaurantId,
                                                    @Valid @RequestBody ReviewDTO reviewDTO) {
@@ -33,7 +29,6 @@ public class ReviewController {
 
     //Get all reviews by restaurant id
     //http://localhost:8080/api/restaurants/12/reviews
-    @ApiOperation(value="Get all reviews by restaurant REST API")
     @GetMapping("/restaurants/{restaurantId}/reviews")
     public List<ReviewDTO> getAllReviewsByRestaurantId(@PathVariable(value = "restaurantId") Long restaurantId) {
         return reviewService.getReviewByRestaurantId(restaurantId);
@@ -41,7 +36,6 @@ public class ReviewController {
 
     //Get review by id
     //http://localhost:8080/api/restaurants/12/reviews/3
-    @ApiOperation(value="Get single reviews by id REST API")
     @GetMapping("/restaurants/{restaurantId}/reviews/{id}")
     public ResponseEntity<ReviewDTO> getReviewById(@PathVariable(value = "restaurantId") Long restaurantId,
                                                    @PathVariable(value = "id") Long reviewId) {
@@ -52,7 +46,6 @@ public class ReviewController {
 
     //Update review from db
     // http://localhost:8080/api/v1/restaurants/13/reviews/4
-    @ApiOperation(value="Update reviews by id REST API")
     @PutMapping("/restaurants/{restaurantId}/reviews/{id}")
     public ResponseEntity<ReviewDTO> updateComment(@PathVariable(value="restaurantId") Long restaurantId,
                                                    @PathVariable(value="id")Long reviewId,
@@ -63,7 +56,6 @@ public class ReviewController {
     }
 
     //Delete review from db
-    @ApiOperation(value="Delete reviews by id REST API")
     @DeleteMapping("/restaurants/{restaurantId}/reviews/{id}")
     public ResponseEntity<String> deleteReView(@PathVariable(value="restaurantId") Long restaurantId,
                                                @PathVariable(value="id")Long reviewId) {

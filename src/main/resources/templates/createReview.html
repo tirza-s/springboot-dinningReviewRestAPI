@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Review</title>
+</head>
+<body>
+
+<h2 id="review_label">Add Review</h2>
+SubmitBy: <input id="submitBy"><br>
+email: <input id="email"><br>
+comment: <input id="comment"><br>
+
+<button onclick="addReview()">Submit</button>
+
+<div id="responseField"></div>
+
+<script>
+    function addReview() {
+        const submitBy = document.getElementById('submitBy');
+        const email = document.getElementById('email');
+        const comment = document.getElementById('comment');
+
+        fetch('http://localhost:8080/api/v1/restaurants/reviews', {
+            method: 'POST',
+            body: JSON.stringify(
+                {
+                    submitBy: submitBy.value,
+                    email: email.value,
+                    comment: comment.value,
+                }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                const responseField = document.getElementById('responseField');
+                responseField.innerHTML = JSON.stringify(data);
+            });
+    }
+</script>
+</body>
+</html>

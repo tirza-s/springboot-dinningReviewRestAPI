@@ -2,7 +2,6 @@ package be.tirza.dinningreviewapi.service.impl;
 
 import be.tirza.dinningreviewapi.entity.Restaurant;
 import be.tirza.dinningreviewapi.exception.ResourceNotFoundException;
-import be.tirza.dinningreviewapi.exception.RestaurantApiException;
 import be.tirza.dinningreviewapi.payload.RestaurantDTO;
 import be.tirza.dinningreviewapi.payload.RestaurantResponse;
 import be.tirza.dinningreviewapi.repository.RestaurantRepository;
@@ -16,10 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.management.Query;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
