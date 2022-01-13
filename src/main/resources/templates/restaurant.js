@@ -20,10 +20,10 @@ function htmlForRestaurant(restaurant) {
     let output = '<fieldset>' +
         '<legend> ' + restaurant.name + '</legend>' +
         '<p>' +
-        '    City : ' + restaurant.city + '<br>' +
         '    Address : ' + restaurant.address + '<br>' +
+        '    City : ' + restaurant.city + '<br>' +
         '    State : ' + restaurant.state + '<br>' +
-        '    Website : ' + restaurant.zipCode + '<br>' +
+        '    Zip code : ' + restaurant.zipCode + '<br>' +
         '    Phone number : ' + restaurant.phoneNumber + '<br>' +
         '    Website : ' + restaurant.website + '<br>' +
         '    Reviews : ' + '<br>';
@@ -32,8 +32,8 @@ function htmlForRestaurant(restaurant) {
         let review = restaurant.reviews[i];
 
         output += review.submitBy + '<br>' +
-            review.email + '<br>' +
-            review.comment + '<br>'
+                  review.email + '<br>' +
+                  review.comment + '<br>'
     }
 
     return output + '</p>' + '</fieldset>';
