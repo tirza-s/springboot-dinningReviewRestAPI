@@ -1,12 +1,12 @@
 # springboot-dinningReviewRestAPI
 
-In This project I build the back-end for Dinning Review web application using REST API with Spring Boot
+In This project I build the back-end for Dinning Review web application using REST API and Spring Boot
 
-The Objective :
+The Objective are :
 - Admin can create, update and delete the restaurant
 - User can createn updatate and delete the review based on the restaurant ID
 
-The tech stack I use for this application : 
+The tech stacks I use for this application : 
 - Java
 - Spring Boot
 - MySQL Database
