@@ -24,6 +24,11 @@ class RestaurantServiceImpl implements RestaurantService {
 
     private RestaurantRepository restaurantRepository;
 
+    /**
+     *  Use Regex for zipCode search
+     * "\\d{4}" is to specify the zipCode for this project has 4 characters
+     * @see Pattern
+     */
     private Pattern zipCodePattern = Pattern.compile("\\d{4}");
 
     private ModelMapper modelMapper;
@@ -118,14 +123,11 @@ class RestaurantServiceImpl implements RestaurantService {
         restaurantRepository.delete(restaurant);
     }
 
-    //validate zipCode
-    private void validateZipCode(String zipCode) {
-        if (!zipCodePattern.matcher(zipCode).matches()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    //Convert Entity into DTO
+    /**
+     * Convert Entity into DTO
+     * @param restaurant
+     * @return restaurantDTO;
+     */
     private RestaurantDTO mapToDTO(Restaurant restaurant) {
 
         RestaurantDTO restaurantDTO = modelMapper.map(restaurant, RestaurantDTO.class);
@@ -142,7 +144,11 @@ class RestaurantServiceImpl implements RestaurantService {
         return restaurantDTO;
     }
 
-    //convert DTO to Entity
+    /**
+     * convert DTO to Entity
+     * @param restaurantDTO
+     * @return restaurant
+     */
     private Restaurant mapToEntity(RestaurantDTO restaurantDTO) {
 
         Restaurant restaurant = modelMapper.map(restaurantDTO, Restaurant.class);

@@ -2,6 +2,7 @@ package be.tirza.dinningreviewapi.service;
 
 import be.tirza.dinningreviewapi.payload.RestaurantDTO;
 import be.tirza.dinningreviewapi.payload.RestaurantResponse;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

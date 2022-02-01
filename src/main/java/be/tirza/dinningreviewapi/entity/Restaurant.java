@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -40,6 +41,12 @@ public class Restaurant {
 
     @Column(name = "website", nullable = false)
     private String website;
+
+    /**
+     * Use @JsonManagedReference for JPA entity bidirectional relationships
+     * to handle circular references that could cause
+     * @exception @StackOverFlowException
+     */
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

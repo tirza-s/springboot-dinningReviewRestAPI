@@ -27,6 +27,12 @@ public class Review {
     @Column(name = "comment", length = 2000)
     private String comment;
 
+    /**
+     * Use @JsonBackReference for JPA entity bidirectional relationships
+     * to handle circular references that could cause
+     * @exception @StackOverFlowException
+     */
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @JsonBackReference

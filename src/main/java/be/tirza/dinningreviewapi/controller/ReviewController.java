@@ -19,6 +19,10 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
+    /**
+     * This api is responsible to create a new post to the restaurant base on the restaurant id
+     * http://localhost:8080/api/v1/restaurants/2/reviews
+     */
     @PostMapping("/restaurants/{restaurantId}/reviews")
     public ResponseEntity<ReviewDTO> createReview(@PathVariable(value = "restaurantId") long restaurantId,
                                                    @Valid @RequestBody ReviewDTO reviewDTO) {
@@ -26,13 +30,19 @@ public class ReviewController {
         return new ResponseEntity<>(reviewService.createReview(restaurantId, reviewDTO), HttpStatus.CREATED);
     }
 
-    //http://localhost:8080/api/v1/restaurants/12/reviews
+    /**
+     * This api is responsible to get the review based on restaurant id
+     * http://localhost:8080/api/v1/restaurants/2/reviews
+     */
     @GetMapping("/restaurants/{restaurantId}/reviews")
     public List<ReviewDTO> getAllReviewsByRestaurantId(@PathVariable(value = "restaurantId") Long restaurantId) {
         return reviewService.getReviewByRestaurantId(restaurantId);
     }
 
-    //http://localhost:8080/api/v1/restaurants/12/reviews/3
+    /**
+     * This api is responsible to get restaurant and review by id
+     * http://localhost:8080/api/v1/restaurants/2/reviews/6
+     */
     @GetMapping("/restaurants/{restaurantId}/reviews/{id}")
     public ResponseEntity<ReviewDTO> getReviewById(@PathVariable(value = "restaurantId") Long restaurantId,
                                                    @PathVariable(value = "id") Long reviewId) {
@@ -41,7 +51,10 @@ public class ReviewController {
         return new ResponseEntity<>(reviewDTO, HttpStatus.OK);
     }
 
-    // http://localhost:8080/api/v1/restaurants/13/reviews/4
+    /**
+     * This api is to update the review based on restaurant id
+     * http://localhost:8080/api/v1/restaurants/2/reviews/6
+     */
     @PutMapping("/restaurants/{restaurantId}/reviews/{id}")
     public ResponseEntity<ReviewDTO> updateComment(@PathVariable(value="restaurantId") Long restaurantId,
                                                    @PathVariable(value="id")Long reviewId,
@@ -51,6 +64,10 @@ public class ReviewController {
         return new ResponseEntity<>(updatedReview, HttpStatus.OK);
     }
 
+    /**
+     *  This api is to delete the restaurant and review by id
+     *  http://localhost:8080/api/v1/restaurants/2/reviews/6
+     */
     @DeleteMapping("/restaurants/{restaurantId}/reviews/{id}")
     public ResponseEntity<String> deleteReView(@PathVariable(value="restaurantId") Long restaurantId,
                                                @PathVariable(value="id")Long reviewId) {

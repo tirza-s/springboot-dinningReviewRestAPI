@@ -21,7 +21,7 @@ comment: <input id="comment"><br>
         const email = document.getElementById('email');
         const comment = document.getElementById('comment');
 
-        fetch('http://localhost:8080/api/v1/restaurants/reviews', {
+        fetch(`http://localhost:8080/api/v1/restaurants/${restaurantId.value}/reviews`, {
             method: 'POST',
             body: JSON.stringify(
                 {
