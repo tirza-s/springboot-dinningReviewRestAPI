@@ -13,5 +13,5 @@ The tech stacks I use for this application :
 - HTML (very basic)
 - JavaScript (to fetch the data's from database)
 
-I believe there are lots of things could be improve for this application and I plan to keep builing this project. 
+I believe there are lots of things could be improve for this application and I plan to keep building this project. 
 Feel free if you want to contribute to this project.
