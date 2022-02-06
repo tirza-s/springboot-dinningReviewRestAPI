@@ -10,8 +10,7 @@ The tech stacks I use for this application :
 - Java
 - Spring Boot
 - MySQL Database
-- HTML (very basic)
+- HTML
 - JavaScript (to fetch the data's from database)
 
-I believe there are lots of things could be improve for this application and I plan to keep builing this project. 
-Feel free if you want to contribute to this project.
+
