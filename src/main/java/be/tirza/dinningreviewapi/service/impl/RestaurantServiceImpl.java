@@ -10,7 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -52,19 +51,17 @@ class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public RestaurantResponse getAllRestaurant(int pageNo, int pageSize, String sortBy, String sortDir) {
-
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+    public RestaurantResponse getAllRestaurant(int pageNo, int pageSize) {
 
         //create pageable instance
-        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
 
         Page<Restaurant> restaurants = restaurantRepository.findAll(pageable);
 
         //get content from page object
         List<Restaurant> listOfRestaurant = restaurants.getContent();
 
-        List<RestaurantDTO> restaurantResp = listOfRestaurant.stream()
+        List<RestaurantDTO> content =  listOfRestaurant.stream()
                 .map(restaurant -> mapToDTO(restaurant))
                 .collect(Collectors.toList());
 
@@ -77,6 +74,7 @@ class RestaurantServiceImpl implements RestaurantService {
         restaurantResponse.setLast(restaurants.isLast());
 
         return restaurantResponse;
+
     }
 
     @Override

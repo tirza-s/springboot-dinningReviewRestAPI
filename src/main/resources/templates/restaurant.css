@@ -1,0 +1,57 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #D1D1D1;
+}
+
+.first-container {
+    width: 15%;
+    margin-top: 15px;
+}
+
+footer {
+    font-family: 'Inconsolata', monospace;
+    text-align: center;
+}
+
+h1 {
+    color: #5B8A72;
+    margin-left: 12px;
+}
+
+fieldset {
+    margin-bottom: 30px;
+}
+
+#responseField,
+input,button{
+    font-family: 'Inconsolata', monospace;
+    color: #000;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    margin-bottom: 350px;
+}
+
+input,button {
+    border: 2px solid #D67D3E;
+    border-radius: 8px;
+    padding: 0 15px;
+    background-color: #D1D1D1;
+}
+
+label{
+    color: #D1D1D1;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 1.975rem;
+    line-height: 2.5;
+}
+
+legend {
+    color: #5B8A72;
+    font-size: 1.675rem;
+}
+
+.second-container {
+    margin-top: -450px;
+    margin-left: 12px;
+}

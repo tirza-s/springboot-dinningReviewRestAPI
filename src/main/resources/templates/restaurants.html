@@ -3,17 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Restaurant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata&family=Ubuntu&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="restaurant.css">
 </head>
 <body>
 
-<div class="container">
+<div class="nav">
+    <h1>Spring</h1>
+</div>
+
+<div class="first-container">
+    <img src="image/food-background.jpg" alt="food-picture">
+</div>
+
+<div class="second-container">
     <label>Been to these restaurant recently ?</label><br>
     <input type="text" id="restaurant_zipCode" name="zipCode" placeholder="Enter zipcode">
     <button onclick="fetchRestaurant()">Search</button>
+</div>
+
+<div class="third-container">
     <div id="responseField"></div>
 </div>
 
+
+
 <script src="restaurant.js"></script>
+<footer>© 2022-2023 Tirza Samosir</footer>
 </body>
 </html>
 

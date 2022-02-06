@@ -2,7 +2,6 @@ package be.tirza.dinningreviewapi.service;
 
 import be.tirza.dinningreviewapi.payload.RestaurantDTO;
 import be.tirza.dinningreviewapi.payload.RestaurantResponse;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ public interface RestaurantService {
 
     RestaurantDTO createRestaurant(RestaurantDTO restaurantDTO);
 
-    RestaurantResponse getAllRestaurant(int pageNo, int pageSize, String sortBy, String sortDir);
+    RestaurantResponse getAllRestaurant(int pageNo, int pageSize);
 
     RestaurantDTO getRestaurantById(long id);
 
