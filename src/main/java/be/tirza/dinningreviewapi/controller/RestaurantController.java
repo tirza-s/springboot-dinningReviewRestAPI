@@ -6,12 +6,12 @@ import be.tirza.dinningreviewapi.service.RestaurantService;
 import be.tirza.dinningreviewapi.util.AppConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping()
 public class RestaurantController {
@@ -26,6 +26,7 @@ public class RestaurantController {
      * This api is to create a new restaurant -> check status code 201
      * http://localhost:8080/api/v1/restaurants
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/api/v1/restaurants")
     public ResponseEntity<RestaurantDTO> createRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) { // convert json to java object
         return new ResponseEntity<>(restaurantService.createRestaurant(restaurantDTO), HttpStatus.CREATED);
@@ -68,6 +69,7 @@ public class RestaurantController {
      * This api is to update restaurant by id
      * http://localhost:8080/api/v1/restaurants/7
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/api/v1/restaurants/{id}")
     public ResponseEntity<RestaurantDTO> updateRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO,
                                                           @PathVariable(name = "id") long id) {
@@ -80,6 +82,7 @@ public class RestaurantController {
      * This api is to delete restaurant by id
      * http://localhost:8080/api/v1/restaurants/7
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/api/v1/restaurants/{id}")
     public ResponseEntity<String> deleteRestaurant(@PathVariable(name = "id") long id) {
         restaurantService.deleteRestaurantById(id);
